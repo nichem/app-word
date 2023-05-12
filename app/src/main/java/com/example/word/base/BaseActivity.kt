@@ -8,9 +8,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
+import com.example.word.R
+import com.example.word.databinding.RootBinding
 import java.lang.reflect.ParameterizedType
 
 abstract class BaseActivity<T : ViewBinding> : AppCompatActivity() {
@@ -22,10 +25,14 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity() {
         )
         inflate.invoke(null, layoutInflater) as T
     }
+    private lateinit var rootBinding: RootBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+        rootBinding = RootBinding.inflate(layoutInflater)
+        rootBinding.layout.addView(binding.root)
+        enableProgressDialogInner(false)
+        setContentView(rootBinding.root)
         supportActionBar?.hide()
         initView()
     }
@@ -69,5 +76,18 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity() {
 
     fun showToast(msg: String) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+    }
+
+    fun enableProgressDialog(enable: Boolean, text: String = "") {
+        enableProgressDialogInner(enable)
+        rootBinding.tvDialogContent.text = text
+    }
+
+    private fun enableProgressDialogInner(enable: Boolean) {
+        val isVisible = if (enable) View.VISIBLE else View.GONE
+        rootBinding.dialogBg.visibility = isVisible
+        rootBinding.tvDialogContent.visibility = isVisible
+        rootBinding.pw.visibility = isVisible
+        if (enable) rootBinding.pw.spin() else rootBinding.pw.stopSpinning()
     }
 }
