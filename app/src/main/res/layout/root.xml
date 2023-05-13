@@ -7,78 +7,57 @@
     android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/dialog_bg"
+        android:id="@+id/cv_dialog"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/white"
         android:elevation="5dp"
+        android:visibility="gone"
         app:cardCornerRadius="10dp"
-        app:layout_constraintBottom_toBottomOf="@id/guideline2"
-        app:layout_constraintLeft_toLeftOf="@id/guideline3"
-        app:layout_constraintRight_toRightOf="@id/guideline4"
-        app:layout_constraintTop_toTopOf="@id/guideline" />
+        app:layout_constraintBottom_toBottomOf="@id/layout_dialog"
+        app:layout_constraintLeft_toLeftOf="@id/layout_dialog"
+        app:layout_constraintRight_toRightOf="@id/layout_dialog"
+        app:layout_constraintTop_toTopOf="@id/layout_dialog" />
 
-    <com.pnikosis.materialishprogress.ProgressWheel
-        android:id="@+id/pw"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:elevation="5dp"
-        app:layout_constraintBottom_toBottomOf="@id/guideline5"
-        app:layout_constraintLeft_toLeftOf="@id/dialog_bg"
-        app:layout_constraintRight_toRightOf="@id/dialog_bg"
-        app:layout_constraintTop_toTopOf="@id/dialog_bg"
-        wheel:matProg_barColor="#5588FF" />
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/tv_dialog_content"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginHorizontal="10dp"
-        android:elevation="5dp"
-        android:gravity="center"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@id/dialog_bg"
-        app:layout_constraintLeft_toLeftOf="@id/dialog_bg"
-        app:layout_constraintRight_toRightOf="@id/dialog_bg"
-        app:layout_constraintTop_toTopOf="@id/guideline5"
-        tools:text="加载中..." />
+        <com.pnikosis.materialishprogress.ProgressWheel
+            android:id="@+id/pw"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginHorizontal="50dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            wheel:matProg_barColor="#5588FF" />
 
+        <TextView
+            android:id="@+id/tv_dialog_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="10dp"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pw"
+            tools:text="加载中..."
+            android:maxWidth="200dp"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.375" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.625" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.20" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.80" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
 
     <FrameLayout
         android:id="@+id/layout"

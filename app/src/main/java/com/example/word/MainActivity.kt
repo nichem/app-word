@@ -22,12 +22,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         lifecycleScope.launch(Dispatchers.IO) {
             val fileNameList = listOf("dict.db", "dict.db-shm", "dict.db-wal")
             val dbSize = getDatabasePath(fileNameList[0]).length()
-            if (dbSize < 10 * 1024 * 1024)
+            if (dbSize < 10 * 1024 * 1024) {
                 enableProgressDialog(true, "初始化数据库请稍等...")
                 fileNameList.forEach {
                     Timber.d("copy $it")
                     copyFileToDatabase(it)
                 }
+            }
             withContext(Dispatchers.Main) { enableProgressDialog(false) }
         }
     }

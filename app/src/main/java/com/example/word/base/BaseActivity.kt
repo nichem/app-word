@@ -31,7 +31,6 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         rootBinding = RootBinding.inflate(layoutInflater)
         rootBinding.layout.addView(binding.root)
-        enableProgressDialogInner(false)
         setContentView(rootBinding.root)
         supportActionBar?.hide()
         initView()
@@ -78,16 +77,29 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity() {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
-    fun enableProgressDialog(enable: Boolean, text: String = "") {
-        enableProgressDialogInner(enable)
-        rootBinding.tvDialogContent.text = text
+    fun enableProgressDialog(enable: Boolean, text: String = "", cancelable: Boolean = false) {
+        enableProgressDialogInner(enable, text, cancelable)
     }
 
-    private fun enableProgressDialogInner(enable: Boolean) {
+    private var progressDialogCancelable = false
+    private var progressIsShowing = false
+    private fun enableProgressDialogInner(
+        enable: Boolean,
+        text: String = "",
+        cancelable: Boolean = false
+    ) {
         val isVisible = if (enable) View.VISIBLE else View.GONE
-        rootBinding.dialogBg.visibility = isVisible
-        rootBinding.tvDialogContent.visibility = isVisible
-        rootBinding.pw.visibility = isVisible
+        rootBinding.cvDialog.visibility = isVisible
+        rootBinding.layoutDialog.visibility = isVisible
         if (enable) rootBinding.pw.spin() else rootBinding.pw.stopSpinning()
+        progressIsShowing = enable
+        rootBinding.tvDialogContent.text = text
+        progressDialogCancelable = cancelable
+    }
+
+    override fun onBackPressed() {
+        if (progressIsShowing) {
+            if (progressDialogCancelable) enableProgressDialogInner(false)
+        } else super.onBackPressed()
     }
 }
