@@ -16,4 +16,10 @@ interface WordDao {
 
     @Query("select count(*) from stardict where tag like :tag")
     fun getWordCountOfDict(tag: String): Int
+
+    @Query("select * from stardict where tag like :tag order by bnc=0,bnc")
+    fun getWordsByBnc(tag: String): List<Word>
+
+    @Query("select * from stardict where tag like :tag order by frq=0,frq")
+    fun getWordsByFrq(tag: String): List<Word>
 }

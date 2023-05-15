@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 data class Record(
     @PrimaryKey val wordId: Int,
     /**
-     * 3记过但记得，2记过，1记过但忘了，数字越小，复习优先级越高
+     * 3多次记得，2记得，1不记得,0多次不记得，数字越小，复习优先级越高
      */
     var state: Int,
     /**

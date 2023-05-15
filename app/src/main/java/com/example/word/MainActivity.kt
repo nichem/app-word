@@ -18,10 +18,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         initDatabase()
         initProgress()
         binding.btnSetting.setOnClickListener {
-            toActivityForResult(SettingActivity::class.java) {
-
-                initProgress()
+            toActivity(SettingActivity::class.java)
+        }
+        binding.tvNew.setOnClickListener {
+            ReciteActivity.start(this, DatabaseUtil.curDictId, true)
+        }
+        binding.tvOld.setOnClickListener {
+            ReciteActivity.start(this, DatabaseUtil.curDictId, false)
+        }
+        binding.tvProgress.setOnLongClickListener {
+            showAskDialog("警告", "是否清除该词书所有记录？") {
+                if (it) {
+                    clearRecords(DatabaseUtil.curDictId)
+                }
             }
+            true
         }
     }
 
@@ -68,6 +79,22 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         ins.copyTo(outs)
         ins.close()
         outs.close()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initProgress()
+    }
+
+    private fun clearRecords(dictId: String) {
+        lifecycleScope.launch {
+            enableProgressDialog(true, "清除记录中", false)
+            withContext(Default) {
+                AppRep.clearRecordsByDictId(dictId)
+            }
+            enableProgressDialog(false)
+            initProgress()
+        }
     }
 
 }

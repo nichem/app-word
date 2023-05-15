@@ -58,4 +58,10 @@ data class Word(
         if (oxford != 0) tagString += "牛津三千核心词汇,"
         return tagString.substring(0, tagString.length)
     }
+
+    companion object {
+        fun none(): Word {
+            return Word(-1, "无单词", "", "", "", "", 0, 0, "", 0, 0, "", "", "")
+        }
+    }
 }
