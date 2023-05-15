@@ -42,9 +42,9 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity() {
         startActivity(Intent(this, clazz))
     }
 
-    private val requestMap = mutableMapOf<Int, (Intent) -> Unit>()
+    private val requestMap = mutableMapOf<Int, (Intent?) -> Unit>()
 
-    fun toActivityForResult(clazz: Class<*>, requestCode: Int = 1, callback: (Intent) -> Unit) {
+    fun toActivityForResult(clazz: Class<*>, requestCode: Int = 1, callback: (Intent?) -> Unit) {
         requestMap[requestCode] = callback
         startActivityForResult(Intent(this, clazz), requestCode)
     }
@@ -53,9 +53,7 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         for (key in requestMap.keys) {
             if (key == requestCode) {
-                data?.let {
-                    requestMap[key]?.invoke(data)
-                }
+                requestMap[key]?.invoke(data)
                 break
             }
         }

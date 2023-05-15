@@ -1,13 +1,13 @@
 package com.example.word
 
 import android.animation.ValueAnimator
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import com.example.word.base.BaseActivity
+import com.example.word.data.AppRep
+import com.example.word.data.DatabaseUtil
 import com.example.word.databinding.ActivityMainBinding
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -16,17 +16,32 @@ import java.io.FileOutputStream
 class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun initView() {
         initDatabase()
-        startProgressAnimation(800, 3000)
+        initProgress()
+        binding.btnSetting.setOnClickListener {
+            toActivityForResult(SettingActivity::class.java) {
+
+                initProgress()
+            }
+        }
     }
 
-    private fun startProgressAnimation(curCount: Int, totalCount: Int) {
-        val valueAnimator = ValueAnimator.ofInt(0, curCount)
-        valueAnimator.duration = 500L
-        valueAnimator.addUpdateListener {
-            val value = it.animatedValue as Int
-            binding.tvProgress.text = "$value/$totalCount"
+    private fun initProgress() {
+        lifecycleScope.launch {
+            val dictId = DatabaseUtil.curDictId
+
+            val rememberCount = withContext(Default) { AppRep.getRememberWordCount(dictId) }
+            val totalCount = withContext(Default) { AppRep.getWordCount(dictId) }
+
+            Timber.d("rememberCount:$rememberCount totalCount:$totalCount")
+            binding.tvProgressLabel.text = DatabaseUtil.curDict.name
+            val valueAnimator = ValueAnimator.ofInt(0, rememberCount)
+            valueAnimator.duration = 500L
+            valueAnimator.addUpdateListener {
+                val value = it.animatedValue as Int
+                binding.tvProgress.text = "$value/$totalCount"
+            }
+            valueAnimator.start()
         }
-        valueAnimator.start()
     }
 
     private fun initDatabase() {

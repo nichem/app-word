@@ -77,4 +77,5 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
     implementation "com.pnikosis:materialish-progress:1.7"
+    implementation 'com.tencent:mmkv:1.2.15'
 }
