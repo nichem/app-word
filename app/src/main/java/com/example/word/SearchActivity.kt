@@ -43,7 +43,8 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
             search()
         }
         binding.etSearch.setOnEditorActionListener { _, actionId, event ->
-            if (event.keyCode == KeyEvent.KEYCODE_ENTER) {
+            Timber.d("actionId:$actionId")
+            if (event?.keyCode == KeyEvent.KEYCODE_ENTER || EditorInfo.IME_ACTION_DONE == actionId) {
                 // 在这里执行回车键按下时的操作
                 search()
                 true
