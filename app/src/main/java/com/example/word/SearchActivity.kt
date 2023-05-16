@@ -17,6 +17,7 @@ import com.example.word.data.Word
 import com.example.word.databinding.ActivitySearchBinding
 import com.example.word.databinding.ItemSearchWordBinding
 import com.example.word.databinding.ItemWordBinding
+import com.example.word.util.addSelectionMenuOption
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.launch
@@ -65,7 +66,11 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
         wordBinding = DataBindingUtil.bind(view)!!
         wordBinding.isShowTranslation = true
         wordBinding.layoutBtn.visibility = View.INVISIBLE
+        wordBinding.tvDefinition.addSelectionMenuOption("查询") { selectionText ->
+            SearchActivity.start(this@SearchActivity, selectionText)
+        }
         binding.layoutWord.addView(wordBinding.root)
+
     }
 
     private val adapter =

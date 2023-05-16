@@ -2,6 +2,10 @@ package com.example.word
 
 import android.content.Context
 import android.content.Intent
+import android.text.Selection
+import android.view.ActionMode
+import android.view.Menu
+import android.view.MenuItem
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
@@ -11,6 +15,7 @@ import com.example.word.data.DatabaseUtil
 import com.example.word.data.Word
 import com.example.word.databinding.ActivityReciteBinding
 import com.example.word.databinding.ItemWordBinding
+import com.example.word.util.addSelectionMenuOption
 import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -63,6 +68,9 @@ class ReciteActivity : BaseActivity<ActivityReciteBinding>() {
             wordBinding.isShowTranslation = !(wordBinding.isShowTranslation ?: false)
             wordBinding.tvShowTranslation.text =
                 if (wordBinding.isShowTranslation == true) "不看翻译" else "看下翻译"
+        }
+        wordBinding.tvDefinition.addSelectionMenuOption("查询") { selectionText ->
+            SearchActivity.start(this@ReciteActivity, selectionText)
         }
         binding.layoutWord.addView(wordBinding.root)
     }
