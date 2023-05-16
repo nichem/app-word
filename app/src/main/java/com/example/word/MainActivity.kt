@@ -17,6 +17,8 @@ import java.io.FileOutputStream
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun initView() {
+        val versionName = packageManager.getPackageInfo(packageName, 0).versionName
+        binding.tvVersion.text = "v$versionName"
         initDatabase()
         initProgress()
         binding.btnSetting.setOnClickListener {
