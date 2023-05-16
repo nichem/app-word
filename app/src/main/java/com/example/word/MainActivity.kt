@@ -1,6 +1,8 @@
 package com.example.word
 
 import android.animation.ValueAnimator
+import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.lifecycleScope
 import com.example.word.base.BaseActivity
 import com.example.word.data.AppRep
@@ -33,6 +35,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 }
             }
             true
+        }
+        binding.btnSearch.setOnClickListener {
+            search()
+        }
+        binding.etSearch.setOnEditorActionListener { _, _, event ->
+            if (event.keyCode == KeyEvent.KEYCODE_ENTER) {
+                // 在这里执行回车键按下时的操作
+                search()
+                true;
+            } else false;
         }
     }
 
@@ -95,6 +107,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             enableProgressDialog(false)
             initProgress()
         }
+    }
+
+    private fun search() {
+        val searchKey = binding.etSearch.text.toString().trim()
+        if (searchKey.isBlank()) {
+            binding.etSearch.setText("")
+            binding.etSearch.hint = "搜索词为空"
+        }
+        SearchActivity.start(this, searchKey)
     }
 
 }

@@ -61,4 +61,8 @@ object AppRep {
         }
 
     }
+
+    fun findWordsByWordLike(workLike: String): List<Word> {
+        return wordDao.findByLikeWord("$workLike%")
+    }
 }
